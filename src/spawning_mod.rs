@@ -32,3 +32,21 @@ pub async fn spawning_main() {
         process(socket).await;
     }
 }
+
+// To run this function you need to use and await spawning_main_concorrent functin from this
+// module.
+// by running this tutorial and run `mini-redis-cli get foo` in the separated terminal, in this terminal
+// you should see `GOT: Array([Bulk(b"get"), Bulk(b"foo")])` and in client terminal you should see
+// `Error: "uninplemented"`.
+pub async fn spawning_main_concorrent() {
+    let listener = TcpListener::bind("127.0.0.1:6379").await.unwrap();
+
+    loop {
+        let (socket, _) = listener.accept().await.unwrap();
+        // A new task is spawned for each inbound socket. The socket is
+        // moved to the new task and processed there.
+        tokio::spawn(async move {
+            process(socket).await;
+        });
+    }
+}

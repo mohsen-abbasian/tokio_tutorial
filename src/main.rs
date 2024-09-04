@@ -5,7 +5,10 @@
 // use tokio_toturial::say_hello_world;
 
 // use spawning_main function
-use tokio_toturial::spawning_main;
+// use tokio_toturial::spawning_main;
+
+// use spawning_main_concorrent function
+use tokio_toturial::spawning_main_concorrent;
 
 #[tokio::main]
 async fn main() {
@@ -16,6 +19,9 @@ async fn main() {
     // let _ = say_hello_world().await;
 
     // run spawning_main function
-    spawning_main().await;
+    // spawning_main().await;
+
+    // run spawning_main_concorrent function
+    spawning_main_concorrent().await;
 
 }

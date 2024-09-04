@@ -29,7 +29,8 @@ pub async fn spawning_main() {
     loop {
         // The second item contains the IP and port of the new connection.
         let (socket, _) = listener.accept().await.unwrap();
-        process(socket).await;
+        // process(socket).await;
+        process_1(socket).await;
     }
 }
 
@@ -46,13 +47,13 @@ pub async fn spawning_main_concurrent() {
         // A new task is spawned for each inbound socket. The socket is
         // moved to the new task and processed there.
         tokio::spawn(async move {
-            // process(socket).await; 
+            // process(socket).await;
             process_1(socket).await;
         });
     }
 }
 
-
+// implementing Set and Get action
 async fn process_1(socket: TcpStream) {
     use mini_redis::Command::{self, Get, Set};
     use std::collections::HashMap;
@@ -69,8 +70,8 @@ async fn process_1(socket: TcpStream) {
         let response = match Command::from_frame(frame).unwrap() {
             Set(cmd) => {
                 // The value is stored as `Vec<u8>`
-                db.insert(cmd.key().to_string(), cmd.value().to_vec())
-                Frame::Simple("Ok".to_string())
+                db.insert(cmd.key().to_string(), cmd.value().to_vec());
+                Frame::Simple("OK".to_string())
             }
             Get(cmd) => {
                 if let Some(value) = db.get(cmd.key()) {
@@ -84,7 +85,6 @@ async fn process_1(socket: TcpStream) {
             }
             cmd => panic!("unimplemented {:?}", cmd),
         };
-
         // Write the response to the client
         connection.write_frame(&response).await.unwrap();
     }

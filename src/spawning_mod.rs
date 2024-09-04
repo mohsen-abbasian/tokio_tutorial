@@ -33,12 +33,12 @@ pub async fn spawning_main() {
     }
 }
 
-// To run this function you need to use and await spawning_main_concorrent functin from this
+// To run this function you need to use and await spawning_main_concurrent functin from this
 // module.
 // by running this tutorial and run `mini-redis-cli get foo` in the separated terminal, in this terminal
 // you should see `GOT: Array([Bulk(b"get"), Bulk(b"foo")])` and in client terminal you should see
 // `Error: "uninplemented"`.
-pub async fn spawning_main_concorrent() {
+pub async fn spawning_main_concurrent() {
     let listener = TcpListener::bind("127.0.0.1:6379").await.unwrap();
 
     loop {

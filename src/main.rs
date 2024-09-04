@@ -7,8 +7,8 @@
 // use spawning_main function
 // use tokio_toturial::spawning_main;
 
-// use spawning_main_concorrent function
-use tokio_toturial::spawning_main_concorrent;
+// use spawning_main_concurrent function
+use tokio_toturial::spawning_main_concurrent;
 
 #[tokio::main]
 async fn main() {
@@ -21,7 +21,7 @@ async fn main() {
     // run spawning_main function
     // spawning_main().await;
 
-    // run spawning_main_concorrent function
-    spawning_main_concorrent().await;
+    // run spawning_main_concurrent function
+    spawning_main_concurrent().await;
 
 }

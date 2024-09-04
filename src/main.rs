@@ -23,5 +23,4 @@ async fn main() {
 
     // run spawning_main_concurrent function
     spawning_main_concurrent().await;
-
 }

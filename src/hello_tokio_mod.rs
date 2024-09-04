@@ -2,7 +2,6 @@
 
 use mini_redis::{client, Result};
 
-
 // To run this function you need to use and await hello_tokio functin from this
 // module. Make sure the Mini-Redis server is running in a separate terminal window.
 // by running this tutorial you should see `got value from the server; result=Some(b"world")` in the terminal.
@@ -20,7 +19,6 @@ pub async fn hello_tokio() -> Result<()> {
 
     Ok(())
 }
-
 
 async fn say_world() {
     print!("World");

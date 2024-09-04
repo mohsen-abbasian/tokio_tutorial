@@ -1,7 +1,7 @@
 // Implementation of the second section of tutorial (spawning)
 
-use tokio::net::{TcpListener, TcpStream};
 use mini_redis::{Connection, Frame};
+use tokio::net::{TcpListener, TcpStream};
 
 async fn process(socket: TcpStream) {
     // The `Connection` lets us read/write redis **frames** instead of

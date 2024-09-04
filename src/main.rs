@@ -8,7 +8,10 @@
 // use tokio_toturial::spawning_main;
 
 // use spawning_main_concurrent function
-use tokio_toturial::spawning_main_concurrent;
+// use tokio_toturial::spawning_main_concurrent;
+
+// use main_shared_state function
+use tokio_toturial::main_shared_state;
 
 #[tokio::main]
 async fn main() {
@@ -22,5 +25,8 @@ async fn main() {
     // spawning_main().await;
 
     // run spawning_main_concurrent function
-    spawning_main_concurrent().await;
+    // spawning_main_concurrent().await;
+
+    // run main_shared_state function
+    main_shared_state().await;
 }

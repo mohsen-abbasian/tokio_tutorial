@@ -11,7 +11,10 @@
 // use tokio_toturial::spawning_main_concurrent;
 
 // use main_shared_state function
-use tokio_toturial::main_shared_state;
+// use tokio_toturial::main_shared_state;
+
+// use main_channel function
+use tokio_toturial::main_channel;
 
 #[tokio::main]
 async fn main() {
@@ -28,5 +31,8 @@ async fn main() {
     // spawning_main_concurrent().await;
 
     // run main_shared_state function
-    main_shared_state().await;
+    // main_shared_state().await;
+
+    // run main_channel function
+    main_channel().await;
 }

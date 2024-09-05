@@ -18,12 +18,12 @@ pub async fn main_channel() {
             use Command::*;
 
             match cmd {
-                Get {key, resp} => {
+                Get { key, resp } => {
                     let res = client.get(&key).await;
                     // Ignore errors
                     let _ = resp.send(res);
                 }
-                Set {key, val, resp }=> {
+                Set { key, val, resp } => {
                     let res = client.set(&key, val).await;
                     //Ignore errors
                     let _ = resp.send(res);
@@ -62,17 +62,15 @@ pub async fn main_channel() {
 
         // Send the SET request
         tx2.send(cmd).await.unwrap();
-        
+
         // Await the response
         let res = resp_rx.await;
         println!("GOT = {:?}", res);
-
     });
 
     t1.await.unwrap();
     t2.await.unwrap();
     manager.await.unwrap();
-
 }
 
 #[derive(Debug)]
@@ -85,5 +83,5 @@ enum Command {
         key: String,
         val: Bytes,
         resp: Responder<()>,
-    }
+    },
 }

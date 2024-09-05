@@ -19,7 +19,6 @@ type Db = Arc<Mutex<HashMap<String, Bytes>>>;
 // let shard = db[hash(key) % db.len()].lock().unwrap();
 // shard.insert(key, value);
 
-
 // To run this function you need to use and await main_shared_state functin from this
 // module.
 pub async fn main_shared_state() {

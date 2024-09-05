@@ -1,19 +1,19 @@
-use bytes::{BytesMut, Buf};
-use tokio::{io::AsyncReadExt, net::TcpStream};
-use tokio::io::AsyncBufReadExt;
-use mini_redis::{Frame, Result};
+use bytes::{Buf, BytesMut};
 use mini_redis::frame::Error::Incomplete;
+use mini_redis::{Frame, Result};
 use std::io::Cursor;
+use tokio::io::{self, AsyncBufReadExt, AsyncWriteExt, BufWriter};
+use tokio::{io::AsyncReadExt, net::TcpStream};
 
 pub struct Connection {
-    stream: TcpStream,
+    stream: BufWriter<TcpStream>,
     buffer: BytesMut,
 }
 
 impl Connection {
     pub fn new(stream: TcpStream) -> Connection {
         Connection {
-            stream,
+            stream: BufWriter::new(stream),
             // Allocate the vuffer with 4kb of capacity.
             buffer: BytesMut::with_capacity(4096),
         }
@@ -44,8 +44,6 @@ impl Connection {
                     return Err("connection reset by peer".into());
                 }
             }
-
-
         }
     }
 
@@ -77,5 +75,43 @@ impl Connection {
             // An error was encountered
             Err(e) => Err(e.into()),
         }
+    }
+
+    async fn write_frame(&mut self, frame: &Frame) -> Result<()> {
+        match frame {
+            Frame::Simple(val) => {
+                self.stream.write_u8(b'+').await?;
+                self.stream.write_all(val.as_bytes()).await?;
+                self.stream.write_all(b"\r\n").await?;
+            }
+            Frame::Error(val) => {
+                self.stream.write_u8(b'-').await?;
+                self.stream.write_all(val.as_bytes()).await?;
+                self.stream.write_all(b"\r\n").await?;
+            }
+            Frame::Integer(val) => {
+                self.stream.write_u8(b':').await?;
+                self.write_decimal(*val).await?;
+            }
+            Frame::Null => {
+                self.stream.write_all(b"$-1\r\n").await?;
+            }
+            Frame::Bulk(val) => {
+                let len = val.len();
+
+                self.stream.write_u8(b'$').await?;
+                self.write_decimal(len as u64).await?;
+                self.stream.write_all(val).await?;
+                self.stream.write_all(b"\r\n").await?;
+            }
+            Frame::Array(_val) => unimplemented!(),
+        }
+
+        self.stream.flush().await;
+        Ok(())
+    }
+
+    async fn write_decimal(&self, len: u64) -> Result<()> {
+        Ok(())
     }
 }

@@ -1,6 +1,6 @@
 // Implementation of the fifth section of tutorial (I/O)
 use tokio::fs::File;
-use tokio::io::{self, AsyncReadExt};
+use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
 
 pub async fn main_io() -> io::Result<()> {
     let mut f = File::open("./files/foo.txt").await?;
@@ -20,5 +20,15 @@ pub async fn main_io_1() -> io::Result<()> {
     // read 
     f.read_to_end(&mut buffer).await?;
     println!("The bytes: {:?}", &buffer);
+    Ok(())
+}
+
+pub async fn main_io_2() -> io::Result<()> {
+    let mut f = File::create("./files/bar.txt").await?;
+
+    // Write some prefix of the byte string, but not necessarily all of it
+    let n = f.write(b"some bytes").await?;
+
+    println!("Wrote the first {} bytes of 'some bytes'.", n);    
     Ok(())
 }

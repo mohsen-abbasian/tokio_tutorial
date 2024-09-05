@@ -1,9 +1,14 @@
+// Implementation of the fourth section of tutorial (channel)
+
 use bytes::Bytes;
 use mini_redis::client;
 use tokio::sync::{mpsc, oneshot};
 
 type Responder<T> = oneshot::Sender<mini_redis::Result<T>>;
 
+
+// To run this function you need to use and await main_channel functin from this
+// module.
 pub async fn main_channel() {
     // Create a new channel with a capacity of at most 32.
     let (tx, mut rx) = mpsc::channel(32);

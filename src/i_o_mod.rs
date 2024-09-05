@@ -32,3 +32,13 @@ pub async fn main_io_2() -> io::Result<()> {
     println!("Wrote the first {} bytes of 'some bytes'.", n);    
     Ok(())
 }
+
+pub async fn main_io_3() -> io::Result<()> {
+    let mut f = File::create("./files/bar2.txt").await?;
+
+    // Write some prefix of the byte string, but not necessarily all of it
+    let n = f.write_all(b"some bytes").await?;
+
+    println!("Wrote the first all bytes of 'some bytes'.");    
+    Ok(())
+}

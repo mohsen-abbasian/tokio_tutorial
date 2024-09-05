@@ -25,6 +25,9 @@ use tokio_toturial::main_io_1;
 // use main_io_2 function
 use tokio_toturial::main_io_2;
 
+// use main_io_3 function
+use tokio_toturial::main_io_3;
+
 #[tokio::main]
 async fn main() {
     // run hello_tokio function
@@ -53,4 +56,7 @@ async fn main() {
 
     // run main_io_2 function
     let _ = main_io_2().await;
+
+    // run main_io_3 function
+    let _ = main_io_3().await;
 }

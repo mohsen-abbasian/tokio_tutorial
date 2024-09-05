@@ -1,6 +1,7 @@
 // Implementation of the fifth section of tutorial (I/O)
 use tokio::fs::File;
 use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
+use tokio::net::TcpListener;
 
 pub async fn main_io() -> io::Result<()> {
     let mut f = File::open("./files/foo.txt").await?;
@@ -50,4 +51,19 @@ pub async fn main_io_4() -> io::Result<()> {
     io::copy(&mut reader, &mut file).await?;
     println!("main_io_4 Done!");
     Ok(())
+}
+
+pub async fn main_echo_server_copy() -> io::Result<()> {
+    let listener = TcpListener::bind("127.0.0.1:6142").await?;
+    loop {
+        let (mut socket, _) = listener.accept().await?;
+
+        tokio::spawn(async move {
+            let (mut rd, mut wr) = socket.split();
+
+            if io::copy(&mut rd, &mut wr).await.is_err() {
+                eprintln!("failed to copy");
+            }
+        });
+    }
 }

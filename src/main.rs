@@ -17,19 +17,22 @@
 // use tokio_toturial::main_channel;
 
 // use main_io function
-use tokio_toturial::main_io;
+// use tokio_toturial::main_io;
 
 // use main_io_1 function
-use tokio_toturial::main_io_1;
+// use tokio_toturial::main_io_1;
 
 // use main_io_2 function
-use tokio_toturial::main_io_2;
+// use tokio_toturial::main_io_2;
 
 // use main_io_3 function
-use tokio_toturial::main_io_3;
+// use tokio_toturial::main_io_3;
 
 // use main_io_4 function
-use tokio_toturial::main_io_4;
+// use tokio_toturial::main_io_4;
+
+// use main_echo_server_copy function
+use tokio_toturial::main_echo_server_copy;
 
 #[tokio::main]
 async fn main() {
@@ -64,5 +67,8 @@ async fn main() {
     // let _ = main_io_3().await;
 
     // run main_io_4 function
-    let _ = main_io_4().await;
+    // let _ = main_io_4().await;
+
+    // run main_echo_server_copy function
+    let _ = main_echo_server_copy().await;
 }

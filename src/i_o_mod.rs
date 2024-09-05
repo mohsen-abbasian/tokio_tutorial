@@ -6,7 +6,7 @@ use tokio::net::TcpListener;
 pub async fn main_io() -> io::Result<()> {
     let mut f = File::open("./files/foo.txt").await?;
     let mut buffer = [0; 10];
-    
+
     // read up to 10 bytes
     let n = f.read(&mut buffer[..]).await?;
 
@@ -18,7 +18,7 @@ pub async fn main_io_1() -> io::Result<()> {
     let mut f = File::open("./files/foo.txt").await?;
     let mut buffer = Vec::new();
 
-    // read 
+    // read
     f.read_to_end(&mut buffer).await?;
     println!("The bytes: {:?}", &buffer);
     Ok(())
@@ -30,7 +30,7 @@ pub async fn main_io_2() -> io::Result<()> {
     // Write some prefix of the byte string, but not necessarily all of it
     let n = f.write(b"some bytes").await?;
 
-    println!("Wrote the first {} bytes of 'some bytes'.", n);    
+    println!("Wrote the first {} bytes of 'some bytes'.", n);
     Ok(())
 }
 
@@ -40,7 +40,7 @@ pub async fn main_io_3() -> io::Result<()> {
     // Write some prefix of the byte string, but not necessarily all of it
     let n = f.write_all(b"some bytes").await?;
 
-    println!("Wrote the first all bytes of 'some bytes'.");    
+    println!("Wrote the first all bytes of 'some bytes'.");
     Ok(())
 }
 
@@ -63,6 +63,39 @@ pub async fn main_echo_server_copy() -> io::Result<()> {
 
             if io::copy(&mut rd, &mut wr).await.is_err() {
                 eprintln!("failed to copy");
+            }
+        });
+    }
+}
+
+pub async fn main_echo_server_manual() -> io::Result<()> {
+    let listener = TcpListener::bind("127.0.0.1:6142").await?;
+
+    loop {
+        let (mut socket, _) = listener.accept().await?;
+
+        tokio::spawn(async move {
+            let mut buf = vec![0; 1024];
+
+            loop {
+                match socket.read(&mut buf).await {
+                    // Return value of `Ok(0)` signifies that the remote has
+                    // closed
+                    Ok(0) => return,
+                    Ok(n) => {
+                        // Copy the data bach to socket
+                        if socket.write_all(&buf[..n]).await.is_err() {
+                            // Unexpected socket error. There isn't much we can
+                            // do here so just stop processing.
+                            return;
+                        }
+                    }
+                    Err(_) => {
+                        // Unexpected socket error. There isn't much we can do
+                        // here so just stop processing.
+                        return;
+                    }
+                }
             }
         });
     }

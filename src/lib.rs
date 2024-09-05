@@ -3,6 +3,7 @@ mod hello_tokio_mod;
 mod i_o_mod;
 mod shared_state_mod;
 mod spawning_mod;
+mod connection;
 
 pub use channels_mod::main_channel;
 pub use hello_tokio_mod::{hello_tokio, say_hello_world};

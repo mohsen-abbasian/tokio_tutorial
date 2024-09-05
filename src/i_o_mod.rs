@@ -42,3 +42,12 @@ pub async fn main_io_3() -> io::Result<()> {
     println!("Wrote the first all bytes of 'some bytes'.");    
     Ok(())
 }
+
+pub async fn main_io_4() -> io::Result<()> {
+    let mut reader: &[u8] = b"hello";
+    let mut file = File::create("./files/bar3.txt").await?;
+
+    io::copy(&mut reader, &mut file).await?;
+    println!("main_io_4 Done!");
+    Ok(())
+}

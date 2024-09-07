@@ -5,6 +5,7 @@ mod i_o_mod;
 mod shared_state_mod;
 mod spawning_mod;
 mod select_mod;
+mod stream_mod;
 
 
 pub use channels_mod::main_channel;
@@ -16,3 +17,4 @@ pub use i_o_mod::{
 pub use shared_state_mod::main_shared_state;
 pub use spawning_mod::{spawning_main, spawning_main_concurrent};
 pub use select_mod::main_select;
+pub use stream_mod::main_stream;

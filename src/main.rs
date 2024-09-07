@@ -41,7 +41,10 @@
 // use tokio_toturial::main_select;
 
 // use main_stream function
-use tokio_toturial::main_stream;
+// use tokio_toturial::main_stream;
+
+// use main_broadcast function
+use tokio_toturial::main_broadcast;
 
 #[tokio::main]
 async fn main() {
@@ -88,5 +91,8 @@ async fn main() {
     // let _ = main_select().await;
 
     // run main_stream function
-    let _ = main_stream().await;
+    // let _ = main_stream().await;
+
+    // run main_broadcast function
+    let _ = main_broadcast().await;
 }

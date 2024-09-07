@@ -35,7 +35,10 @@
 // use tokio_toturial::main_echo_server_copy;
 
 // use main_echo_server_manual function
-use tokio_toturial::main_echo_server_manual;
+// use tokio_toturial::main_echo_server_manual;
+
+// use main_select function
+use tokio_toturial::main_select;
 
 #[tokio::main]
 async fn main() {
@@ -76,5 +79,8 @@ async fn main() {
     // let _ = main_echo_server_copy().await;
 
     // run main_echo_server_manual function
-    let _ = main_echo_server_manual().await;
+    // let _ = main_echo_server_manual().await;
+
+    // run main_select function
+    let _ = main_select().await;
 }
